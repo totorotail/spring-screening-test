@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,17 @@ public class Hospital {
   private Region location;
 
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Plan plan = Plan.STARTER;
+
+  @PrePersist
+  protected void onCreate() {
+    if (plan == null) {
+      plan = Plan.STARTER;
+    }
+  }
+
+  @Enumerated(EnumType.STRING)
   private Role role = Role.ROLE_USER;
 
   public enum Region {
@@ -60,6 +72,12 @@ public class Hospital {
     public String getKoreanName() {
       return koreanName;
     }
+  }
+
+  public enum Plan {
+    STARTER,
+    BASIC,
+    PREMIUM
   }
 
   public enum Role {

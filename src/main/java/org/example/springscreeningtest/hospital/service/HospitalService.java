@@ -4,6 +4,7 @@ import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.hospital.dto.LoginResponse;
 import org.example.springscreeningtest.hospital.dto.LoginRequest;
+import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
 import org.example.springscreeningtest.hospital.dto.RegistrationRequest;
 import org.example.springscreeningtest.security.jwt.JwtService;
 import org.example.springscreeningtest.hospital.entity.Hospital;
@@ -11,6 +12,7 @@ import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -81,5 +83,29 @@ public class HospitalService {
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())
         .build();
+  }
+
+  @Transactional
+  public Hospital updatePlan(PlanUpdateRequest request) {
+    // 현재 인증된 사용자의 이메일 가져오기
+    String email = getCurrentUserEmail();
+
+    // 병원 정보 조회
+    Hospital hospital = hospitalRepository.findByEmail(email)
+        .orElseThrow(() -> new IllegalArgumentException("병원 정보를 찾을 수 없습니다"));
+
+    // 요금제 변경
+    hospital.setPlan(request.getPlanAsEnum());
+
+    return hospitalRepository.save(hospital);
+  }
+
+  // 현재 인증된 사용자의 이메일 조회
+  private String getCurrentUserEmail() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+      throw new IllegalStateException("인증되지 않은 사용자입니다");
+    }
+    return authentication.getName();
   }
 }
