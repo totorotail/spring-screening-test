@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.hospital.dto.InfoUpdateRequest;
 import org.example.springscreeningtest.hospital.dto.LoginResponse;
 import org.example.springscreeningtest.hospital.dto.LoginRequest;
 import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
@@ -31,6 +32,19 @@ public class HospitalController {
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
     return ResponseEntity.ok(hospitalService.login(request));
+  }
+
+  @PutMapping("/update")
+  public ResponseEntity<Map<String, String>> updateInfo(@Valid @RequestBody InfoUpdateRequest request) {
+    Hospital hospital = hospitalService.updateInfo(request);
+
+    Map<String, String> response = new HashMap<>();
+    response.put("message", "병원 정보가 성공적으로 업데이트되었습니다");
+    response.put("email", hospital.getEmail());
+    response.put("hospitalName", hospital.getHospitalName());
+    response.put("location", hospital.getLocation().name());
+
+    return ResponseEntity.ok(response);
   }
 
   @PutMapping("/plan")

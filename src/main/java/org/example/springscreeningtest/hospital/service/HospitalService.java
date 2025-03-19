@@ -2,6 +2,7 @@ package org.example.springscreeningtest.hospital.service;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.hospital.dto.InfoUpdateRequest;
 import org.example.springscreeningtest.hospital.dto.LoginResponse;
 import org.example.springscreeningtest.hospital.dto.LoginRequest;
 import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
@@ -83,6 +84,38 @@ public class HospitalService {
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())
         .build();
+  }
+
+  @Transactional
+  public Hospital updateInfo(InfoUpdateRequest request) {
+    // 현재 인증된 사용자의 이메일 가져오기
+    String email = getCurrentUserEmail();
+
+    // 병원 정보 조회
+    Hospital hospital = hospitalRepository.findByEmail(email)
+        .orElseThrow(() -> new IllegalArgumentException("병원 정보를 찾을 수 없습니다"));
+
+    // 변경할 정보가 없는 경우 예외 처리
+    if (request.isEmpty()) {
+      throw new IllegalArgumentException("변경할 정보가 없습니다");
+    }
+
+    // 비밀번호 변경
+    if (request.getPassword() != null) {
+      hospital.setPassword(passwordEncoder.encode(request.getPassword()));
+    }
+
+    // 병원명 변경
+    if (request.getHospitalName() != null) {
+      hospital.setHospitalName(request.getHospitalName());
+    }
+
+    // 위치 변경
+    if (request.getLocation() != null) {
+      hospital.setLocation(request.getLocationAsEnum());
+    }
+
+    return hospitalRepository.save(hospital);
   }
 
   @Transactional
