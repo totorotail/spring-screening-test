@@ -1,11 +1,11 @@
-package org.example.springscreeningtest.auth.service;
+package org.example.springscreeningtest.hospital.service;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
-import org.example.springscreeningtest.auth.dto.AuthResponse;
-import org.example.springscreeningtest.auth.dto.LoginRequest;
-import org.example.springscreeningtest.auth.dto.RegistrationRequest;
-import org.example.springscreeningtest.auth.security.JwtService;
+import org.example.springscreeningtest.hospital.dto.LoginResponse;
+import org.example.springscreeningtest.hospital.dto.LoginRequest;
+import org.example.springscreeningtest.hospital.dto.RegistrationRequest;
+import org.example.springscreeningtest.security.jwt.JwtService;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class HospitalService {
   private final HospitalRepository hospitalRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
   @Transactional
-  public AuthResponse register(RegistrationRequest request) {
+  public LoginResponse register(RegistrationRequest request) {
     // Check if email already exists
     if (hospitalRepository.existsByEmail(request.getEmail())) {
       throw new IllegalArgumentException("이메일이 이미 사용중입니다");
@@ -52,14 +52,14 @@ public class AuthService {
         )
     );
 
-    return AuthResponse.builder()
+    return LoginResponse.builder()
         .token(token)
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())
         .build();
   }
 
-  public AuthResponse login(LoginRequest request) {
+  public LoginResponse login(LoginRequest request) {
     // Authenticate user
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -76,7 +76,7 @@ public class AuthService {
 
     String token = jwtService.generateToken(user);
 
-    return AuthResponse.builder()
+    return LoginResponse.builder()
         .token(token)
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())

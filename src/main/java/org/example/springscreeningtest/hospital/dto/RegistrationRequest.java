@@ -1,4 +1,4 @@
-package org.example.springscreeningtest.auth.dto;
+package org.example.springscreeningtest.hospital.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

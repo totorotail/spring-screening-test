@@ -1,4 +1,4 @@
-package org.example.springscreeningtest.auth.dto;
+package org.example.springscreeningtest.hospital.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
+public class LoginResponse {
   private String token;
   private String email;
   private String hospitalName;

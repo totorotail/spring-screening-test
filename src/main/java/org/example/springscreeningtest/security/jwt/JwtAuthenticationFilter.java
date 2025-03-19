@@ -1,4 +1,4 @@
-package org.example.springscreeningtest.auth.security;
+package org.example.springscreeningtest.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

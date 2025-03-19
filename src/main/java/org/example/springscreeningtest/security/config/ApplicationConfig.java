@@ -1,4 +1,4 @@
-package org.example.springscreeningtest.common.config;
+package org.example.springscreeningtest.security.config;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
