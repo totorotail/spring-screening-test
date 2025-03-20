@@ -7,6 +7,7 @@ import org.example.springscreeningtest.hospital.dto.LoginResponse;
 import org.example.springscreeningtest.hospital.dto.LoginRequest;
 import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
 import org.example.springscreeningtest.hospital.dto.RegistrationRequest;
+import org.example.springscreeningtest.hospital.entity.Role;
 import org.example.springscreeningtest.security.jwt.JwtService;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.repository.HospitalRepository;
@@ -40,7 +41,7 @@ public class HospitalService {
         .password(passwordEncoder.encode(request.getPassword()))
         .hospitalName(request.getHospitalName())
         .location(request.getLocationAsEnum())
-        .role(Hospital.Role.ROLE_USER)
+        .role(Role.ROLE_USER)
         .build();
 
     hospitalRepository.save(hospital);
