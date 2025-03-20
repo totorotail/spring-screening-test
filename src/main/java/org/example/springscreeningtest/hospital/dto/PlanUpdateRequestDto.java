@@ -11,7 +11,7 @@ import org.example.springscreeningtest.hospital.entity.Plan;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlanUpdateRequest {
+public class PlanUpdateRequestDto {
 
   @NotBlank(message = "요금제는 필수입니다")
   private String plan;

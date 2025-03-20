@@ -11,7 +11,7 @@ import org.example.springscreeningtest.hospital.entity.Region;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InfoUpdateRequest {
+public class InfoUpdateRequestDto {
   @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z]).{8,}$",
       message = "비밀번호는 영문 소문자, 대문자 조합 8글자 이상이어야 합니다")
   private String password;
