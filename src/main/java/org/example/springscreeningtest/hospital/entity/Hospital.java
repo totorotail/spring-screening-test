@@ -55,34 +55,4 @@ public class Hospital {
   @Enumerated(EnumType.STRING)
   private Role role = Role.ROLE_USER;
 
-  public enum Region {
-    SEOUL("서울"),
-    GYEONGGI("경기도"),
-    CHUNGCHEONG("충청도"),
-    JEOLLA("전라도"),
-    GANGWON("강원도"),
-    GYEONGSANG("경상도");
-
-    private final String koreanName;
-
-    Region(String koreanName) {
-      this.koreanName = koreanName;
-    }
-
-    public String getKoreanName() {
-      return koreanName;
-    }
-  }
-
-  public enum Plan {
-    STARTER,
-    BASIC,
-    PREMIUM
-  }
-
-  public enum Role {
-    ROLE_USER,
-    ROLE_ADMIN
-  }
-
 }

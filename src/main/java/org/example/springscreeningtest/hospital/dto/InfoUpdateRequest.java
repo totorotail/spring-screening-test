@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.springscreeningtest.hospital.entity.Hospital;
+import org.example.springscreeningtest.hospital.entity.Region;
 
 @Data
 @Builder
@@ -25,12 +25,12 @@ public class InfoUpdateRequest {
     return password == null && hospitalName == null && location == null;
   }
 
-  public Hospital.Region getLocationAsEnum() {
+  public Region getLocationAsEnum() {
     if (location == null) {
       return null;
     }
     try {
-      return Hospital.Region.valueOf(location.toUpperCase());
+      return Region.valueOf(location.toUpperCase());
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("유효한 지역이 아닙니다: " + location);
     }
