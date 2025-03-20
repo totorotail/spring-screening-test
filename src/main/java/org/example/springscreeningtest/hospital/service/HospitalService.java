@@ -2,11 +2,11 @@ package org.example.springscreeningtest.hospital.service;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
-import org.example.springscreeningtest.hospital.dto.InfoUpdateRequest;
-import org.example.springscreeningtest.hospital.dto.LoginResponse;
-import org.example.springscreeningtest.hospital.dto.LoginRequest;
-import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
-import org.example.springscreeningtest.hospital.dto.RegistrationRequest;
+import org.example.springscreeningtest.hospital.dto.InfoUpdateRequestDto;
+import org.example.springscreeningtest.hospital.dto.LoginResponseDto;
+import org.example.springscreeningtest.hospital.dto.LoginRequestDto;
+import org.example.springscreeningtest.hospital.dto.PlanUpdateRequestDto;
+import org.example.springscreeningtest.hospital.dto.RegistrationRequestDto;
 import org.example.springscreeningtest.hospital.entity.Role;
 import org.example.springscreeningtest.security.jwt.JwtService;
 import org.example.springscreeningtest.hospital.entity.Hospital;
@@ -29,7 +29,7 @@ public class HospitalService {
   private final AuthenticationManager authenticationManager;
 
   @Transactional
-  public LoginResponse register(RegistrationRequest request) {
+  public LoginResponseDto register(RegistrationRequestDto request) {
     // Check if email already exists
     if (hospitalRepository.existsByEmail(request.getEmail())) {
       throw new IllegalArgumentException("이메일이 이미 사용중입니다");
@@ -56,14 +56,14 @@ public class HospitalService {
         )
     );
 
-    return LoginResponse.builder()
+    return LoginResponseDto.builder()
         .token(token)
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())
         .build();
   }
 
-  public LoginResponse login(LoginRequest request) {
+  public LoginResponseDto login(LoginRequestDto request) {
     // Authenticate user
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -80,7 +80,7 @@ public class HospitalService {
 
     String token = jwtService.generateToken(user);
 
-    return LoginResponse.builder()
+    return LoginResponseDto.builder()
         .token(token)
         .email(hospital.getEmail())
         .hospitalName(hospital.getHospitalName())
@@ -88,7 +88,7 @@ public class HospitalService {
   }
 
   @Transactional
-  public Hospital updateInfo(InfoUpdateRequest request) {
+  public Hospital updateInfo(InfoUpdateRequestDto request) {
     // 현재 인증된 사용자의 이메일 가져오기
     String email = getCurrentUserEmail();
 
@@ -120,7 +120,7 @@ public class HospitalService {
   }
 
   @Transactional
-  public Hospital updatePlan(PlanUpdateRequest request) {
+  public Hospital updatePlan(PlanUpdateRequestDto request) {
     // 현재 인증된 사용자의 이메일 가져오기
     String email = getCurrentUserEmail();
 

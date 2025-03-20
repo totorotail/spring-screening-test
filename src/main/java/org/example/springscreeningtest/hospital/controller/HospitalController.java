@@ -4,11 +4,11 @@ import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.example.springscreeningtest.hospital.dto.InfoUpdateRequest;
-import org.example.springscreeningtest.hospital.dto.LoginResponse;
-import org.example.springscreeningtest.hospital.dto.LoginRequest;
-import org.example.springscreeningtest.hospital.dto.PlanUpdateRequest;
-import org.example.springscreeningtest.hospital.dto.RegistrationRequest;
+import org.example.springscreeningtest.hospital.dto.InfoUpdateRequestDto;
+import org.example.springscreeningtest.hospital.dto.LoginResponseDto;
+import org.example.springscreeningtest.hospital.dto.LoginRequestDto;
+import org.example.springscreeningtest.hospital.dto.PlanUpdateRequestDto;
+import org.example.springscreeningtest.hospital.dto.RegistrationRequestDto;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.service.HospitalService;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +25,17 @@ public class HospitalController {
   private final HospitalService hospitalService;
 
   @PostMapping("/register")
-  public ResponseEntity<LoginResponse> register(@Valid @RequestBody RegistrationRequest request) {
+  public ResponseEntity<LoginResponseDto> register(@Valid @RequestBody RegistrationRequestDto request) {
     return ResponseEntity.ok(hospitalService.register(request));
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+  public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
     return ResponseEntity.ok(hospitalService.login(request));
   }
 
   @PutMapping("/update")
-  public ResponseEntity<Map<String, String>> updateInfo(@Valid @RequestBody InfoUpdateRequest request) {
+  public ResponseEntity<Map<String, String>> updateInfo(@Valid @RequestBody InfoUpdateRequestDto request) {
     Hospital hospital = hospitalService.updateInfo(request);
 
     Map<String, String> response = new HashMap<>();
@@ -48,7 +48,7 @@ public class HospitalController {
   }
 
   @PutMapping("/plan")
-  public ResponseEntity<Map<String, String>> updatePlan(@Valid @RequestBody PlanUpdateRequest request) {
+  public ResponseEntity<Map<String, String>> updatePlan(@Valid @RequestBody PlanUpdateRequestDto request) {
     Hospital hospital = hospitalService.updatePlan(request);
 
     Map<String, String> response = new HashMap<>();
