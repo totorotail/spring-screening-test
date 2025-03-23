@@ -6,7 +6,9 @@ import org.example.springscreeningtest.common.exception.DuplicatePatientExceptio
 import org.example.springscreeningtest.common.exception.PatientNotFoundException;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.repository.HospitalRepository;
-import org.example.springscreeningtest.patient.dto.PatientDto;
+import org.example.springscreeningtest.patient.dto.PatientCreateDto;
+import org.example.springscreeningtest.patient.dto.PatientResponseDto;
+import org.example.springscreeningtest.patient.dto.PatientUpdateDto;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
 import org.springframework.data.domain.Page;
@@ -24,43 +26,43 @@ public class PatientService {
   private final HospitalRepository hospitalRepository;
 
   @Transactional
-  public PatientDto registerPatient(PatientDto patientDto) {
+  public PatientResponseDto registerPatient(PatientCreateDto dto) {
     Hospital hospital = getCurrentHospital();
 
     // 환자번호 중복 체크
-    if (patientRepository.existsByHospitalAndPatientNumber(hospital, patientDto.getPatientNumber())) {
-      throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + patientDto.getPatientNumber());
+    if (patientRepository.existsByHospitalAndPatientNumber(hospital, dto.getPatientNumber())) {
+      throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + dto.getPatientNumber());
     }
 
     Patient patient = Patient.builder()
         .hospital(hospital)
-        .name(patientDto.getName())
-        .residentRegistrationNumber(patientDto.getResidentRegistrationNumber())
-        .phoneNumber(patientDto.getPhoneNumber())
-        .patientNumber(patientDto.getPatientNumber())
+        .name(dto.getName())
+        .residentRegistrationNumber(dto.getResidentRegistrationNumber())
+        .phoneNumber(dto.getPhoneNumber())
+        .patientNumber(dto.getPatientNumber())
         .build();
 
     Patient savedPatient = patientRepository.save(patient);
 
-    return mapToDto(savedPatient);
+    return mapToResponseDto(savedPatient);
   }
 
   @Transactional(readOnly = true)
-  public Page<PatientDto> getAllPatients(Pageable pageable) {
+  public Page<PatientResponseDto> getAllPatients(Pageable pageable) {
     Hospital hospital = getCurrentHospital();
     return patientRepository.findByHospital(hospital, pageable)
-        .map(this::mapToDto);
+        .map(this::mapToResponseDto);
   }
 
   @Transactional(readOnly = true)
-  public Page<PatientDto> searchPatientsByName(String name, Pageable pageable) {
+  public Page<PatientResponseDto> searchPatientsByName(String name, Pageable pageable) {
     Hospital hospital = getCurrentHospital();
     return patientRepository.findByHospitalAndNameContaining(hospital, name, pageable)
-        .map(this::mapToDto);
+        .map(this::mapToResponseDto);
   }
 
   @Transactional(readOnly = true)
-  public PatientDto getPatientById(Long id) {
+  public PatientResponseDto getPatientById(Long id) {
     Hospital hospital = getCurrentHospital();
     Patient patient = patientRepository.findById(id)
         .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + id));
@@ -70,11 +72,11 @@ public class PatientService {
       throw new CustomAccessDeniedException("접근 권한이 없습니다");
     }
 
-    return mapToDto(patient);
+    return mapToResponseDto(patient);
   }
 
   @Transactional
-  public PatientDto updatePatient(Long id, PatientDto patientDto) {
+  public PatientResponseDto updatePatient(Long id, PatientUpdateDto dto) {
     Hospital hospital = getCurrentHospital();
     Patient patient = patientRepository.findById(id)
         .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + id));
@@ -85,19 +87,19 @@ public class PatientService {
     }
 
     // 환자번호 변경 시 중복 체크
-    if (!patient.getPatientNumber().equals(patientDto.getPatientNumber()) &&
-        patientRepository.existsByHospitalAndPatientNumber(hospital, patientDto.getPatientNumber())) {
-      throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + patientDto.getPatientNumber());
+    if (!patient.getPatientNumber().equals(dto.getPatientNumber()) &&
+        patientRepository.existsByHospitalAndPatientNumber(hospital, dto.getPatientNumber())) {
+      throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + dto.getPatientNumber());
     }
 
-    patient.setName(patientDto.getName());
-    patient.setResidentRegistrationNumber(patientDto.getResidentRegistrationNumber());
-    patient.setPhoneNumber(patientDto.getPhoneNumber());
-    patient.setPatientNumber(patientDto.getPatientNumber());
+    patient.setName(dto.getName());
+    patient.setResidentRegistrationNumber(dto.getResidentRegistrationNumber());
+    patient.setPhoneNumber(dto.getPhoneNumber());
+    patient.setPatientNumber(dto.getPatientNumber());
 
     Patient updatedPatient = patientRepository.save(patient);
 
-    return mapToDto(updatedPatient);
+    return mapToResponseDto(updatedPatient);
   }
 
   // 현재 인증된 병원 정보 조회
@@ -108,8 +110,8 @@ public class PatientService {
   }
 
   // Patient 엔티티를 DTO로 변환
-  private PatientDto mapToDto(Patient patient) {
-    return PatientDto.builder()
+  private PatientResponseDto mapToResponseDto(Patient patient) {
+    return PatientResponseDto.builder()
         .id(patient.getId())
         .name(patient.getName())
         .residentRegistrationNumber(patient.getResidentRegistrationNumber())
