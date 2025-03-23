@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/patients")
+@RequestMapping("/api/v1/patient")
 @RequiredArgsConstructor
 public class PatientController {
 
   private final PatientService patientService;
 
-  @PostMapping
+  @PostMapping("/register")
   public ResponseEntity<PatientDto> registerPatient(@Valid @RequestBody PatientDto patientDto) {
     return ResponseEntity.ok(patientService.registerPatient(patientDto));
   }
