@@ -86,10 +86,16 @@ public class PatientService {
       throw new CustomAccessDeniedException("접근 권한이 없습니다");
     }
 
-    // 환자번호 변경 시 중복 체크
-    if (!patient.getPatientNumber().equals(dto.getPatientNumber()) &&
-        patientRepository.existsByHospitalAndPatientNumber(hospital, dto.getPatientNumber())) {
-      throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + dto.getPatientNumber());
+    // 환자번호 변경 시에만 중복 체크
+    if (!patient.getPatientNumber().equals(dto.getPatientNumber())) {
+      // 변경된 환자번호가 이미 다른 환자에게 사용 중인지 확인
+      boolean isDuplicate = patientRepository.findByHospitalAndPatientNumber(hospital, dto.getPatientNumber())
+          .map(existingPatient -> !existingPatient.getId().equals(patient.getId()))
+          .orElse(false);
+
+      if (isDuplicate) {
+        throw new DuplicatePatientException("이미 등록된 환자번호입니다: " + dto.getPatientNumber());
+      }
     }
 
     patient.setName(dto.getName());
