@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientDto {
-  private Long id;
+public class PatientUpdateDto {
 
   @NotBlank(message = "환자명은 필수입니다")
   private String name;
