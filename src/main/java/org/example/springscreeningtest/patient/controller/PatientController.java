@@ -2,7 +2,9 @@ package org.example.springscreeningtest.patient.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.springscreeningtest.patient.dto.PatientDto;
+import org.example.springscreeningtest.patient.dto.PatientCreateDto;
+import org.example.springscreeningtest.patient.dto.PatientResponseDto;
+import org.example.springscreeningtest.patient.dto.PatientUpdateDto;
 import org.example.springscreeningtest.patient.service.PatientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,33 +27,33 @@ public class PatientController {
   private final PatientService patientService;
 
   @PostMapping("/register")
-  public ResponseEntity<PatientDto> registerPatient(@Valid @RequestBody PatientDto patientDto) {
-    return ResponseEntity.ok(patientService.registerPatient(patientDto));
+  public ResponseEntity<PatientResponseDto> registerPatient(@Valid @RequestBody PatientCreateDto dto) {
+    return ResponseEntity.ok(patientService.registerPatient(dto));
   }
 
   @GetMapping
-  public ResponseEntity<Page<PatientDto>> getAllPatients(
+  public ResponseEntity<Page<PatientResponseDto>> getAllPatients(
       @PageableDefault(size = 10) Pageable pageable) {
     return ResponseEntity.ok(patientService.getAllPatients(pageable));
   }
 
   @GetMapping("/search")
-  public ResponseEntity<Page<PatientDto>> searchPatients(
+  public ResponseEntity<Page<PatientResponseDto>> searchPatients(
       @RequestParam String name,
       @PageableDefault(size = 10) Pageable pageable) {
     return ResponseEntity.ok(patientService.searchPatientsByName(name, pageable));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<PatientDto> getPatient(@PathVariable Long id) {
+  public ResponseEntity<PatientResponseDto> getPatient(@PathVariable Long id) {
     return ResponseEntity.ok(patientService.getPatientById(id));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<PatientDto> updatePatient(
+  public ResponseEntity<PatientResponseDto> updatePatient(
       @PathVariable Long id,
-      @Valid @RequestBody PatientDto patientDto) {
+      @Valid @RequestBody PatientUpdateDto dto) {
 
-    return ResponseEntity.ok(patientService.updatePatient(id, patientDto));
+    return ResponseEntity.ok(patientService.updatePatient(id, dto));
   }
 }
