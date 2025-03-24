@@ -33,12 +33,12 @@ public class TestController {
     return ResponseEntity.ok(testService.getPatientTestHistory(patientId));
   }
 
-  @GetMapping("/{patientId}/{testCode}/{testDate}")
+  @GetMapping("/{patientId}/{testAcronym}/{testDate}")
   public ResponseEntity<TestResultDto> getTestResult(
       @PathVariable Long patientId,
-      @PathVariable String testCode,
+      @PathVariable String testAcronym,
       @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate testDate) {
 
-    return ResponseEntity.ok(testService.getTestResult(patientId, testCode, testDate));
+    return ResponseEntity.ok(testService.getTestResult(patientId, testAcronym, testDate));
   }
 }

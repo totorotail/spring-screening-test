@@ -27,10 +27,10 @@ public class Test extends BaseTimeEntity {
   private Long id;
 
   @Column(nullable = false, unique = true)
-  private String code; // AUDIT, BAI 등
+  private String acronym; // AUDIT, BAI 등
 
   @Column(nullable = false)
-  private String name;
+  private String title;
 
   @Column(columnDefinition = "TEXT")
   private String description;

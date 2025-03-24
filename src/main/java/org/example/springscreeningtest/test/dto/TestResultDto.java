@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TestResultDto {
   private Long patientId;
-  private String testCode; // AUDIT, BAI 등
+  private String testAcronym; // AUDIT, BAI 등
 
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate testDate;
