@@ -54,8 +54,8 @@ public class TestService {
       }
 
       // 검사 유형 조회
-      Test test = testRepository.findByCode(testResultDto.getTestCode())
-          .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testResultDto.getTestCode()));
+      Test test = testRepository.findByAcronym(testResultDto.getTestAcronym())
+          .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testResultDto.getTestAcronym()));
 
       // 이미 같은 날짜에 동일 검사가 있는지 확인
       Optional<PatientTest> existingTest = patientTestRepository.findByPatientAndTestAndTestDate(
@@ -170,7 +170,7 @@ public class TestService {
   }
 
   @Transactional(readOnly = true)
-  public TestResultDto getTestResult(Long patientId, String testCode, LocalDate testDate) {
+  public TestResultDto getTestResult(Long patientId, String testAcronym, LocalDate testDate) {
     try {
       Hospital hospital = getCurrentHospital();
 
@@ -184,8 +184,8 @@ public class TestService {
       }
 
       // 검사 유형 조회
-      Test test = testRepository.findByCode(testCode)
-          .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testCode));
+      Test test = testRepository.findByAcronym(testAcronym)
+          .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testAcronym));
 
       // 특정 날짜의 특정 검사 결과 조회
       PatientTest patientTest = patientTestRepository.findByPatientAndTestAndTestDate(patient, test, testDate)
@@ -226,7 +226,7 @@ public class TestService {
 
       return TestResultDto.builder()
           .patientId(patientTest.getPatient().getId())
-          .testCode(patientTest.getTest().getCode())
+          .testAcronym(patientTest.getTest().getAcronym())
           .testDate(patientTest.getTestDate())
           .totalScore(patientTest.getTotalScore())
           .answers(answers)
