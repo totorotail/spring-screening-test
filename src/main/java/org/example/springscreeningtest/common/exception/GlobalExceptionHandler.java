@@ -80,6 +80,31 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
   }
 
+  // 검사 유형 찾기 실패 오류
+  @ExceptionHandler(TestNotFoundException.class)
+  public ResponseEntity<Map<String, String>> handleTestNotFoundException(TestNotFoundException ex) {
+    Map<String, String> error = new HashMap<>();
+    error.put("error", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+  }
+
+  // 검사 결과 처리 오류
+  @ExceptionHandler(TestResultProcessingException.class)
+  public ResponseEntity<Map<String, String>> handleTestResultProcessingException(TestResultProcessingException ex) {
+    Map<String, String> error = new HashMap<>();
+    error.put("error", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+  }
+
+  // JSON 파싱 오류
+  @ExceptionHandler(JsonParsingException.class)
+  public ResponseEntity<Map<String, String>> handleJsonParsingException(JsonParsingException ex) {
+    Map<String, String> error = new HashMap<>();
+    error.put("error", "JSON 처리 중 오류가 발생했습니다");
+    error.put("details", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
   // 기타 모든 예외
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
