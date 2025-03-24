@@ -22,18 +22,18 @@ public class TestController {
 
   private final TestService testService;
 
-  @PostMapping("/results")
+  @PostMapping
   public ResponseEntity<Void> saveTestResult(@Valid @RequestBody TestResultDto testResultDto) {
     testService.saveTestResult(testResultDto);
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/patients/{patientId}/history")
+  @GetMapping("/{patientId}")
   public ResponseEntity<List<TestResultDto>> getPatientTestHistory(@PathVariable Long patientId) {
     return ResponseEntity.ok(testService.getPatientTestHistory(patientId));
   }
 
-  @GetMapping("/patients/{patientId}/types/{testCode}/date/{testDate}")
+  @GetMapping("/{patientId}/{testCode}/{testDate}")
   public ResponseEntity<TestResultDto> getTestResult(
       @PathVariable Long patientId,
       @PathVariable String testCode,
