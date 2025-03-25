@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.springscreeningtest.common.entity.BaseTimeEntity;
 
 @Entity
 @Table(name = "tests")
@@ -20,7 +19,7 @@ import org.example.springscreeningtest.common.entity.BaseTimeEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Test extends BaseTimeEntity {
+public class Test {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
