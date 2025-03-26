@@ -17,4 +17,5 @@ public interface PatientTestRepository extends JpaRepository<PatientTest, Long> 
   List<PatientTest> findByPatientAndTestOrderByTestDateDesc(Patient patient, Test test);
   Optional<PatientTest> findByPatientAndTestAndTestDate(Patient patient, Test test, LocalDate testDate);
   Page<PatientTest> findByPatient(Patient patient, Pageable pageable);
+  List<PatientTest> findByPatientAndTestOrderByTestDate(Patient patient, Test test);
 }

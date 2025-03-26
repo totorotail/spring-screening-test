@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
+import org.example.springscreeningtest.test.dto.TestScoreHistoryDto;
 import org.example.springscreeningtest.test.service.TestService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,13 @@ public class TestController {
       @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate testDate) {
 
     return ResponseEntity.ok(testService.getTestResult(patientId, testAcronym, testDate));
+  }
+
+  @GetMapping("/{patientId}/score-history/{testAcronym}")
+  public ResponseEntity<List<TestScoreHistoryDto>> getPatientTestScoreHistory(
+      @PathVariable Long patientId,
+      @PathVariable String testAcronym) {
+
+    return ResponseEntity.ok(testService.getPatientTestScoreHistory(patientId, testAcronym));
   }
 }
