@@ -19,6 +19,7 @@ import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
 import org.example.springscreeningtest.test.dto.TestAnswerDto;
+import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
 import org.example.springscreeningtest.test.entity.PatientTest;
 import org.example.springscreeningtest.test.entity.Test;
@@ -38,6 +39,35 @@ public class TestService {
   private final PatientTestRepository patientTestRepository;
   private final HospitalRepository hospitalRepository;
   private final ObjectMapper objectMapper;
+
+  @Transactional(readOnly = true)
+  public TestInfoDto getTestInfo(String acronym) {
+    Test test = testRepository.findByAcronym(acronym)
+        .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + acronym));
+
+    return TestInfoDto.builder()
+        .id(test.getId())
+        .acronym(test.getAcronym())
+        .title(test.getTitle())
+        .description(test.getDescription())
+        .questionsConfig(test.getQuestionsConfig())
+        .build();
+  }
+
+  @Transactional(readOnly = true)
+  public List<TestInfoDto> getAllTests() {
+    List<Test> tests = testRepository.findAll();
+
+    return tests.stream()
+        .map(test -> TestInfoDto.builder()
+            .id(test.getId())
+            .acronym(test.getAcronym())
+            .title(test.getTitle())
+            .description(test.getDescription())
+            .questionsConfig(test.getQuestionsConfig())
+            .build())
+        .collect(Collectors.toList());
+  }
 
   @Transactional
   public void saveTestResult(TestResultDto testResultDto) {

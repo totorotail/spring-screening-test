@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
 import org.example.springscreeningtest.test.service.TestService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,6 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
   private final TestService testService;
+
+  @GetMapping("/info/{acronym}")
+  public ResponseEntity<TestInfoDto> getTestInfo(@PathVariable String acronym) {
+    return ResponseEntity.ok(testService.getTestInfo(acronym));
+  }
+
+  @GetMapping("/info")
+  public ResponseEntity<List<TestInfoDto>> getAllTests() {
+    return ResponseEntity.ok(testService.getAllTests());
+  }
 
   @PostMapping
   public ResponseEntity<Void> saveTestResult(@Valid @RequestBody TestResultDto testResultDto) {
