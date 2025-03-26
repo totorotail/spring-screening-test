@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
 import org.example.springscreeningtest.test.dto.TestAnswerDto;
+import org.example.springscreeningtest.test.dto.TestHistorySummaryDto;
 import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
 import org.example.springscreeningtest.test.dto.TestScoreHistoryDto;
@@ -293,6 +296,42 @@ public class TestService {
             .testDate(pt.getTestDate())
             .totalScore(pt.getTotalScore())
             .build())
+        .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public List<TestHistorySummaryDto> getPatientTestHistorySummary(Long patientId) {
+    Hospital hospital = getCurrentHospital();
+
+    // 환자 조회
+    Patient patient = patientRepository.findById(patientId)
+        .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + patientId));
+
+    // 본인 병원의 환자만 검사 결과 조회 가능
+    if (!patient.getHospital().getId().equals(hospital.getId())) {
+      throw new CustomAccessDeniedException("접근 권한이 없습니다");
+    }
+
+    // 환자의 모든 검사 결과 조회
+    List<PatientTest> patientTests = patientTestRepository.findByPatientOrderByTestDateDesc(patient);
+
+    // 날짜별로 그룹화
+    Map<LocalDate, List<PatientTest>> groupedByDate = patientTests.stream()
+        .collect(Collectors.groupingBy(PatientTest::getTestDate));
+
+    // 결과 변환
+    return groupedByDate.entrySet().stream()
+        .map(entry -> {
+          List<String> acronyms = entry.getValue().stream()
+              .map(pt -> pt.getTest().getAcronym())
+              .collect(Collectors.toList());
+
+          return TestHistorySummaryDto.builder()
+              .testDate(entry.getKey())
+              .testAcronyms(acronyms)
+              .build();
+        })
+        .sorted(Comparator.comparing(TestHistorySummaryDto::getTestDate).reversed())
         .collect(Collectors.toList());
   }
 }
