@@ -19,7 +19,9 @@ import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
 import org.example.springscreeningtest.test.dto.TestAnswerDto;
+import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
+import org.example.springscreeningtest.test.dto.TestScoreHistoryDto;
 import org.example.springscreeningtest.test.entity.PatientTest;
 import org.example.springscreeningtest.test.entity.Test;
 import org.example.springscreeningtest.test.repository.PatientTestRepository;
@@ -38,6 +40,35 @@ public class TestService {
   private final PatientTestRepository patientTestRepository;
   private final HospitalRepository hospitalRepository;
   private final ObjectMapper objectMapper;
+
+  @Transactional(readOnly = true)
+  public TestInfoDto getTestInfo(String acronym) {
+    Test test = testRepository.findByAcronym(acronym)
+        .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + acronym));
+
+    return TestInfoDto.builder()
+        .id(test.getId())
+        .acronym(test.getAcronym())
+        .title(test.getTitle())
+        .description(test.getDescription())
+        .questionsConfig(test.getQuestionsConfig())
+        .build();
+  }
+
+  @Transactional(readOnly = true)
+  public List<TestInfoDto> getAllTests() {
+    List<Test> tests = testRepository.findAll();
+
+    return tests.stream()
+        .map(test -> TestInfoDto.builder()
+            .id(test.getId())
+            .acronym(test.getAcronym())
+            .title(test.getTitle())
+            .description(test.getDescription())
+            .questionsConfig(test.getQuestionsConfig())
+            .build())
+        .collect(Collectors.toList());
+  }
 
   @Transactional
   public void saveTestResult(TestResultDto testResultDto) {
@@ -235,5 +266,33 @@ public class TestService {
     } catch (Exception e) {
       throw new JsonParsingException("검사 결과 변환 중 오류가 발생했습니다", e);
     }
+  }
+
+  @Transactional(readOnly = true)
+  public List<TestScoreHistoryDto> getPatientTestScoreHistory(Long patientId, String testAcronym) {
+    Hospital hospital = getCurrentHospital();
+
+    // 환자 조회
+    Patient patient = patientRepository.findById(patientId)
+        .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + patientId));
+
+    // 본인 병원의 환자만 검사 결과 조회 가능
+    if (!patient.getHospital().getId().equals(hospital.getId())) {
+      throw new CustomAccessDeniedException("접근 권한이 없습니다");
+    }
+
+    // 검사 유형 조회
+    Test test = testRepository.findByAcronym(testAcronym)
+        .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testAcronym));
+
+    // 환자의 특정 검사 결과를 날짜순으로 조회
+    List<PatientTest> patientTests = patientTestRepository.findByPatientAndTestOrderByTestDate(patient, test);
+
+    return patientTests.stream()
+        .map(pt -> TestScoreHistoryDto.builder()
+            .testDate(pt.getTestDate())
+            .totalScore(pt.getTotalScore())
+            .build())
+        .collect(Collectors.toList());
   }
 }
