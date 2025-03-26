@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.test.dto.TestDetailWithResultDto;
 import org.example.springscreeningtest.test.dto.TestHistorySummaryDto;
 import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
@@ -66,5 +67,14 @@ public class TestController {
   @GetMapping("/{patientId}/history-summary")
   public ResponseEntity<List<TestHistorySummaryDto>> getPatientTestHistorySummary(@PathVariable Long patientId) {
     return ResponseEntity.ok(testService.getPatientTestHistorySummary(patientId));
+  }
+
+  @GetMapping("/{patientId}/{testAcronym}/{testDate}/detail")
+  public ResponseEntity<TestDetailWithResultDto> getTestDetailWithResult(
+      @PathVariable Long patientId,
+      @PathVariable String testAcronym,
+      @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate testDate) {
+
+    return ResponseEntity.ok(testService.getTestDetailWithResult(patientId, testAcronym, testDate));
   }
 }

@@ -2,6 +2,7 @@ package org.example.springscreeningtest.test.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +21,10 @@ import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
+import org.example.springscreeningtest.test.dto.OptionDto;
+import org.example.springscreeningtest.test.dto.QuestionWithAnswerDto;
 import org.example.springscreeningtest.test.dto.TestAnswerDto;
+import org.example.springscreeningtest.test.dto.TestDetailWithResultDto;
 import org.example.springscreeningtest.test.dto.TestHistorySummaryDto;
 import org.example.springscreeningtest.test.dto.TestInfoDto;
 import org.example.springscreeningtest.test.dto.TestResultDto;
@@ -333,5 +337,106 @@ public class TestService {
         })
         .sorted(Comparator.comparing(TestHistorySummaryDto::getTestDate).reversed())
         .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public TestDetailWithResultDto getTestDetailWithResult(Long patientId, String testAcronym, LocalDate testDate) {
+    try {
+      Hospital hospital = getCurrentHospital();
+
+      // 환자 조회
+      Patient patient = patientRepository.findById(patientId)
+          .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + patientId));
+
+      // 본인 병원의 환자만 검사 결과 조회 가능
+      if (!patient.getHospital().getId().equals(hospital.getId())) {
+        throw new CustomAccessDeniedException("접근 권한이 없습니다");
+      }
+
+      // 검사 유형 조회
+      Test test = testRepository.findByAcronym(testAcronym)
+          .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testAcronym));
+
+      // 특정 날짜의 특정 검사 결과 조회
+      PatientTest patientTest = patientTestRepository.findByPatientAndTestAndTestDate(patient, test, testDate)
+          .orElseThrow(() -> new TestResultProcessingException("검사 결과를 찾을 수 없습니다"));
+
+      // JSON 문자열을 객체로 변환
+      List<TestAnswerDto> answers = new ArrayList<>();
+      if (patientTest.getTestResults() != null && !patientTest.getTestResults().isEmpty()) {
+        answers = objectMapper.readValue(
+            patientTest.getTestResults(),
+            objectMapper.getTypeFactory().constructCollectionType(List.class, TestAnswerDto.class)
+        );
+      }
+
+      // 검사 질문 구성 파싱
+      JsonNode questionsConfig = objectMapper.readTree(test.getQuestionsConfig());
+      JsonNode questions = questionsConfig.get("questions");
+
+      // 질문과 응답 매핑
+      List<QuestionWithAnswerDto> questionsWithAnswers = new ArrayList<>();
+
+      if (questions.isArray()) {
+        for (JsonNode question : questions) {
+          int questionId = question.get("id").asInt();
+          String questionText = question.get("text").asText();
+          String questionType = question.get("type").asText();
+
+          // 현재 질문에 대한 환자 응답 찾기
+          TestAnswerDto answer = answers.stream()
+              .filter(a -> a.getQuestionId() == questionId)
+              .findFirst()
+              .orElse(new TestAnswerDto(questionId, null, null, null));
+
+          // 선택지 변환
+          List<OptionDto> options = new ArrayList<>();
+          if (question.has("options") && question.get("options").isArray()) {
+            for (JsonNode option : question.get("options")) {
+              options.add(OptionDto.builder()
+                  .id(option.get("id").asInt())
+                  .text(option.get("text").asText())
+                  .score(option.has("score") ? option.get("score").asInt() : null)
+                  .build());
+            }
+          }
+
+          // 질문과 응답 결합
+          questionsWithAnswers.add(QuestionWithAnswerDto.builder()
+              .questionId(questionId)
+              .questionText(questionText)
+              .questionType(questionType)
+              .options(options)
+              .selectedOptionId(answer.getSelectedOptionId())
+              .textAnswer(answer.getTextAnswer())
+              .score(answer.getScore())
+              .build());
+        }
+      }
+
+      // 통합 응답 생성 (questionsConfig 제거, questionsWithAnswers 추가)
+      return TestDetailWithResultDto.builder()
+          .testId(test.getId())
+          .acronym(test.getAcronym())
+          .title(test.getTitle())
+          .description(test.getDescription())
+          .patientId(patient.getId())
+          .testDate(patientTest.getTestDate())
+          .totalScore(patientTest.getTotalScore())
+          .questionsWithAnswers(questionsWithAnswers)  // 질문과 응답이 매핑된 리스트
+          .comment(patientTest.getComment())
+          .build();
+
+    } catch (PatientNotFoundException | TestNotFoundException |
+             TestResultProcessingException | CustomAccessDeniedException e) {
+      // 이미 알려진 예외는 그대로 다시 throw
+      throw e;
+    } catch (IOException e) {
+      // JSON 처리 중 발생한 모든 예외는 TestResultProcessingException으로 감싸서 throw
+      throw new TestResultProcessingException("검사 결과 처리 중 오류가 발생했습니다", e);
+    } catch (Exception e) {
+      // 기타 모든 예외
+      throw new TestResultProcessingException("검사 결과 조회 중 오류가 발생했습니다", e);
+    }
   }
 }
