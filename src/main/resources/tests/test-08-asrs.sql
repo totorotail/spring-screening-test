@@ -1,6 +1,6 @@
 INSERT INTO tests (acronym, title, description, questions_config)
 SELECT
-'ASRS', '성인자기보고척도', '아래의 질문을 읽고 오른 쪽의 평가 기준에 맞춰 담하십시오. 질문에 답하실 때에는, 지난 6개월 동안 혹은 지난 마지막 검사 이후 현재까지 귀하가 어떻게 느끼고 행동하였는지를 가장 잘 설명하는 칸에 체크 하십시오.', '{
+'ASRS', '성인자기보고척도', '', '{
   "questions": [
     {
       "id": 1,
@@ -8,8 +8,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -20,8 +20,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -32,8 +32,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -44,8 +44,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -56,8 +56,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -68,8 +68,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -80,8 +80,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -92,8 +92,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -104,8 +104,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -116,8 +116,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -128,8 +128,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -140,8 +140,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -152,8 +152,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -164,8 +164,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -176,8 +176,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -188,8 +188,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -200,8 +200,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]
@@ -212,8 +212,8 @@ SELECT
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 0},
-        {"id": 2, "text": "가끔 그렇지 않다", "score": 1},
-        {"id": 3, "text": "가끔 그렇다", "score": 2},
+        {"id": 2, "text": "거의 그렇지 않다", "score": 1},
+        {"id": 3, "text": "약간 가끔 그렇다", "score": 2},
         {"id": 4, "text": "자주 그렇다", "score": 3},
         {"id": 5, "text": "매우 자주 그렇다", "score": 4}
       ]

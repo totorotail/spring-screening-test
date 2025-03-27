@@ -1,6 +1,6 @@
 INSERT INTO tests (acronym, title, description, questions_config)
 SELECT
-'BAI', '벡 불안척도', '각 문장을 자세히 읽어보시고 오늘을 포함해서 지난 한 주 동안 자신의 상태를 가장 잘 나타낸다고 생각되는 번호에 ✓ 표 하세요.', '{
+'BAI', '벡 불안척도', '', '{
   "questions": [
     {
       "id": 1,
@@ -103,7 +103,7 @@ SELECT
     },
     {
       "id": 10,
-      "text": "신경이 과민 되어 있다.",
+      "text": "신경이 과민 되어 왔다.",
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 느끼지 않았다", "score": 0},

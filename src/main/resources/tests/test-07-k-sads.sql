@@ -1,6 +1,6 @@
 INSERT INTO tests (acronym, title, description, questions_config)
 SELECT
-'K-SADS', '사회불안척도', '다음 문항들은 사람들이 대인관계에서 접하는 상황들로 구성되어 있습니다. 각 문항들을 잘 읽고, 그러한 상황에서 자신이 일반적으로 느끼는 바를 가장 적절하게 나타내 주는 번호에 표시해 주십시오. 한문항도 빠짐없이 솔직하게 답해 주시기 바랍니다.', '{
+'K-SADS', '사회불안척도', '', '{
   "questions": [
     {
       "id": 1,
@@ -64,7 +64,7 @@ SELECT
     },
     {
       "id": 6,
-      "text": "사교적인 모임에서 대게는 편안함을 느낀다.",
+      "text": "사교적인 모임에서 대개는 편안함을 느낀다.",
       "type": "MULTIPLE_CHOICE",
       "options": [
         {"id": 1, "text": "전혀 그렇지 않다", "score": 5},
@@ -274,7 +274,7 @@ SELECT
         {"id": 1, "text": "전혀 그렇지 않다", "score": 1},
         {"id": 2, "text": "약간 그렇다", "score": 2},
         {"id": 3, "text": "보통이다", "score": 3},
-        {"id": 4, "text": "상당희 그렇다", "score": 4},
+        {"id": 4, "text": "상당히 그렇다", "score": 4},
         {"id": 5, "text": "매우 심하게 그렇다", "score": 5}
       ]
     },

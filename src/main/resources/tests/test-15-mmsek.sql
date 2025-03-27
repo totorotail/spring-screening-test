@@ -11,8 +11,15 @@ SELECT
     {
       "id": 2,
       "text": "위 문항의 점수? (5점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3},
+        {"id": 5, "text": "4점", "score": 4},
+        {"id": 6, "text": "5점", "score": 5}
+      ]
     },
     {
       "id": 3,
@@ -23,8 +30,14 @@ SELECT
     {
       "id": 4,
       "text": "위 문항의 점수? (4점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3},
+        {"id": 5, "text": "4점", "score": 4}
+      ]
     },
     {
       "id": 5,
@@ -35,8 +48,11 @@ SELECT
     {
       "id": 6,
       "text": "위 문항의 점수? (1점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1}
+      ]
     },
     {
       "id": 7,
@@ -47,8 +63,13 @@ SELECT
     {
       "id": 8,
       "text": "위 문항의 점수? (3점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3}
+      ]
     },
     {
       "id": 9,
@@ -59,8 +80,13 @@ SELECT
     {
       "id": 10,
       "text": "위 문항의 점수? (3점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3}
+      ]
     },
     {
       "id": 11,
@@ -71,8 +97,15 @@ SELECT
     {
       "id": 12,
       "text": "위 문항의 점수? (5점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3},
+        {"id": 5, "text": "4점", "score": 4},
+        {"id": 6, "text": "5점", "score": 5}
+      ]
     },
     {
       "id": 13,
@@ -83,8 +116,12 @@ SELECT
     {
       "id": 14,
       "text": "위 문항의 점수? (2점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2}
+      ]
     },
     {
       "id": 15,
@@ -95,8 +132,13 @@ SELECT
     {
       "id": 16,
       "text": "위 문항의 점수? (3점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1},
+        {"id": 3, "text": "2점", "score": 2},
+        {"id": 4, "text": "3점", "score": 3}
+      ]
     },
     {
       "id": 17,
@@ -107,8 +149,11 @@ SELECT
     {
       "id": 18,
       "text": "위 문항의 점수? (1점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1}
+      ]
     },
     {
       "id": 19,
@@ -119,8 +164,11 @@ SELECT
     {
       "id": 20,
       "text": "위 문항의 점수? (1점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1}
+      ]
     },
     {
       "id": 21,
@@ -131,8 +179,11 @@ SELECT
     {
       "id": 22,
       "text": "위 문항의 점수? (1점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1}
+      ]
     },
     {
       "id": 23,
@@ -143,8 +194,11 @@ SELECT
     {
       "id": 24,
       "text": "위 문항의 점수? (1점)",
-      "type": "TEXT",
-      "options": []
+      "type": "MULTIPLE_CHOICE",
+      "options": [
+        {"id": 1, "text": "0점", "score": 0},
+        {"id": 2, "text": "1점", "score": 1}
+      ]
     }
   ]
 }'
