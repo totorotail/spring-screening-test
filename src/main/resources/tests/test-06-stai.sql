@@ -1,6 +1,6 @@
 INSERT INTO tests (acronym, title, description, questions_config)
 SELECT
-'STAI', '상태-특성 불안척도(State-Trait Anxiety Inventory)', '"다음 문장들은 사람들이 자신을 표현하는데 사용되는 것들입니다. 각 문장을 잘 읽으시고 각 문장의 오른편에 있는 네 개의 항목 중에서 당신이 지금 이 순간에 바로 느끼고 있는 상태를 가장 잘 나타내주는 문항 하나에 체크를 하여 주십시오."					', '{
+'STAI', '상태-특성 불안척도', '', '{
   "questions": [
     {
       "id": 1,
