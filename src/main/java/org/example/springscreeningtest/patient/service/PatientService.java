@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.common.exception.CustomAccessDeniedException;
 import org.example.springscreeningtest.common.exception.DuplicatePatientException;
 import org.example.springscreeningtest.common.exception.PatientNotFoundException;
+import org.example.springscreeningtest.common.exception.PlanLimitExceededException;
 import org.example.springscreeningtest.hospital.entity.Hospital;
+import org.example.springscreeningtest.hospital.entity.Plan;
 import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.dto.PatientCreateDto;
 import org.example.springscreeningtest.patient.dto.PatientResponseDto;
@@ -28,6 +30,14 @@ public class PatientService {
   @Transactional
   public PatientResponseDto registerPatient(PatientCreateDto dto) {
     Hospital hospital = getCurrentHospital();
+
+    // 플랜 제한 확인
+    if (hospital.getPlan() == Plan.STARTER) {
+      long patientCount = patientRepository.countByHospital(hospital);
+      if (patientCount >= 20) {
+        throw new PlanLimitExceededException("STARTER 플랜은 최대 20명의 환자만 등록할 수 있습니다.");
+      }
+    }
 
     // 환자번호 중복 체크
     if (patientRepository.existsByHospitalAndPatientNumber(hospital, dto.getPatientNumber())) {
