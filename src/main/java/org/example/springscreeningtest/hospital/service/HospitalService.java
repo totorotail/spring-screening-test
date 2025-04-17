@@ -2,6 +2,7 @@ package org.example.springscreeningtest.hospital.service;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.common.exception.EmailNotFoundException;
 import org.example.springscreeningtest.hospital.dto.InfoUpdateRequestDto;
 import org.example.springscreeningtest.hospital.dto.LoginResponseDto;
 import org.example.springscreeningtest.hospital.dto.LoginRequestDto;
@@ -64,6 +65,11 @@ public class HospitalService {
   }
 
   public LoginResponseDto login(LoginRequestDto request) {
+    // 이메일 존재 여부 선확인
+    if (!hospitalRepository.existsByEmail(request.getEmail())) {
+      throw new EmailNotFoundException("존재하지 않는 이메일입니다");
+    }
+
     // Authenticate user
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
