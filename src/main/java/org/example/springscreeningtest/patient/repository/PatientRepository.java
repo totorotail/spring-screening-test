@@ -14,4 +14,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
   Page<Patient> findByHospitalAndNameContaining(Hospital hospital, String name, Pageable pageable);
   Optional<Patient> findByHospitalAndPatientNumber(Hospital hospital, String patientNumber);
   boolean existsByHospitalAndPatientNumber(Hospital hospital, String patientNumber);
+  long countByHospital(Hospital hospital);
 }
