@@ -3,6 +3,7 @@ package org.example.springscreeningtest.hospital.service;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.common.exception.EmailNotFoundException;
+import org.example.springscreeningtest.hospital.dto.HospitalInfoResponseDto;
 import org.example.springscreeningtest.hospital.dto.InfoUpdateRequestDto;
 import org.example.springscreeningtest.hospital.dto.LoginResponseDto;
 import org.example.springscreeningtest.hospital.dto.LoginRequestDto;
@@ -28,6 +29,19 @@ public class HospitalService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+
+  public HospitalInfoResponseDto getCurrentHospitalInfo() {
+    String email = getCurrentUserEmail();
+    Hospital hospital = hospitalRepository.findByEmail(email)
+        .orElseThrow(() -> new IllegalArgumentException("병원 정보를 찾을 수 없습니다"));
+
+    return HospitalInfoResponseDto.builder()
+        .email(hospital.getEmail())
+        .hospitalName(hospital.getHospitalName())
+        .location(hospital.getLocation())
+        .plan(hospital.getPlan())
+        .build();
+  }
 
   @Transactional
   public LoginResponseDto register(RegistrationRequestDto request) {
