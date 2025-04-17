@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.example.springscreeningtest.hospital.dto.HospitalInfoResponseDto;
 import org.example.springscreeningtest.hospital.dto.InfoUpdateRequestDto;
 import org.example.springscreeningtest.hospital.dto.LoginResponseDto;
 import org.example.springscreeningtest.hospital.dto.LoginRequestDto;
@@ -12,6 +13,7 @@ import org.example.springscreeningtest.hospital.dto.RegistrationRequestDto;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.hospital.service.HospitalService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HospitalController {
   private final HospitalService hospitalService;
+
+  @GetMapping
+  public ResponseEntity<HospitalInfoResponseDto> getHospitalInfo() {
+    return ResponseEntity.ok(hospitalService.getCurrentHospitalInfo());
+  }
 
   @PostMapping("/register")
   public ResponseEntity<LoginResponseDto> register(@Valid @RequestBody RegistrationRequestDto request) {
