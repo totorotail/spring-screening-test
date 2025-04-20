@@ -3,6 +3,7 @@ package org.example.springscreeningtest.patient.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.patient.dto.PatientCreateDto;
+import org.example.springscreeningtest.patient.dto.PatientDuplicateCheckDto;
 import org.example.springscreeningtest.patient.dto.PatientResponseDto;
 import org.example.springscreeningtest.patient.dto.PatientUpdateDto;
 import org.example.springscreeningtest.patient.service.PatientService;
@@ -55,5 +56,11 @@ public class PatientController {
       @Valid @RequestBody PatientUpdateDto dto) {
 
     return ResponseEntity.ok(patientService.updatePatient(id, dto));
+  }
+
+  @PostMapping("/check-duplicate")
+  public ResponseEntity<Boolean> checkDuplicatePatientNumber(@Valid @RequestBody PatientDuplicateCheckDto dto) {
+    boolean isDuplicate = patientService.isDuplicatePatientNumber(dto.getPatientNumber(), dto.getExcludePatientId());
+    return ResponseEntity.ok(isDuplicate);
   }
 }

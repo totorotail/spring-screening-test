@@ -1,5 +1,6 @@
 package org.example.springscreeningtest.patient.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.common.exception.CustomAccessDeniedException;
 import org.example.springscreeningtest.common.exception.DuplicatePatientException;
@@ -116,6 +117,16 @@ public class PatientService {
     Patient updatedPatient = patientRepository.save(patient);
 
     return mapToResponseDto(updatedPatient);
+  }
+
+  @Transactional(readOnly = true)
+  public boolean isDuplicatePatientNumber(String patientNumber, Long excludeId) {
+    Hospital hospital = getCurrentHospital();
+
+    Optional<Patient> existing = patientRepository.findByHospitalAndPatientNumber(hospital, patientNumber);
+
+    // 동일 병원 내 동일 환자번호가 존재하는 경우
+    return existing.isPresent() && !existing.get().getId().equals(excludeId);
   }
 
   // 현재 인증된 병원 정보 조회
