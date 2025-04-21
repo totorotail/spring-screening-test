@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -84,13 +85,14 @@ public class TestService {
   @Transactional
   public void saveTestResult(TestResultDto testResultDto) {
     try {
+      // 현재 병원 정보 가져오기
       Hospital hospital = getCurrentHospital();
 
       // 환자 조회
       Patient patient = patientRepository.findById(testResultDto.getPatientId())
           .orElseThrow(() -> new PatientNotFoundException("환자를 찾을 수 없습니다: " + testResultDto.getPatientId()));
 
-      // 본인 병원의 환자만 검사 결과 저장 가능
+      // 로그인 병원과 환자 소속 병원이 다른 경우 예외 발생
       if (!patient.getHospital().getId().equals(hospital.getId())) {
         throw new CustomAccessDeniedException("접근 권한이 없습니다");
       }
@@ -99,30 +101,35 @@ public class TestService {
       Test test = testRepository.findByAcronym(testResultDto.getTestAcronym())
           .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + testResultDto.getTestAcronym()));
 
-      // 이미 같은 날짜에 동일 검사가 있는지 확인
-      Optional<PatientTest> existingTest = patientTestRepository.findByPatientAndTestAndTestDate(
+      // 기존 동일 날짜, 동일 검사가 있는 경우 조회
+      Optional<PatientTest> existingTestOpt = patientTestRepository.findByPatientAndTestAndTestDate(
           patient, test, testResultDto.getTestDate());
-
-      PatientTest patientTest;
-      if (existingTest.isPresent()) {
-        // 기존 검사 결과 업데이트
-        patientTest = existingTest.get();
-      } else {
-        // 새 검사 결과 생성
-        patientTest = new PatientTest();
-        patientTest.setPatient(patient);
-        patientTest.setTest(test);
-        patientTest.setTestDate(testResultDto.getTestDate());
-      }
 
       // 점수 계산
       calculateScores(testResultDto, test);
 
-      // 검사 결과 JSON으로 변환
-      String testResultsJson = objectMapper.writeValueAsString(testResultDto.getAnswers());
-      patientTest.setTestResults(testResultsJson);
-      patientTest.setTotalScore(testResultDto.getTotalScore());
-      patientTest.setComment(testResultDto.getComment());
+      // JSON 문자열 변환
+      String answersJson = objectMapper.writeValueAsString(testResultDto.getAnswers());
+
+      PatientTest patientTest = existingTestOpt
+          .map(existing -> {
+            // 기존 데이터 덮어쓰기
+            existing.setTestResults(answersJson);
+            existing.setTotalScore(testResultDto.getTotalScore());
+            existing.setComment(testResultDto.getComment());
+            return existing;
+          })
+          .orElseGet(() -> {
+            // 새로 생성
+            return PatientTest.builder()
+                .patient(patient)
+                .test(test)
+                .testDate(testResultDto.getTestDate())
+                .testResults(answersJson)
+                .totalScore(testResultDto.getTotalScore())
+                .comment(testResultDto.getComment())
+                .build();
+          });
 
       patientTestRepository.save(patientTest);
 
@@ -130,6 +137,7 @@ public class TestService {
       throw new TestResultProcessingException("검사 결과 저장 중 오류가 발생했습니다", e);
     }
   }
+
 
   private void calculateScores(TestResultDto testResultDto, Test test) {
     try {
