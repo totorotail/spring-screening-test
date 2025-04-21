@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'PSQI', '피츠버그 수면의 질 척도', '지난 한달 동안 수면습관에 관한 질문들입니다.', '{
+'PSQI', '피츠버그 수면의 질 척도', '지난 한달 동안 수면습관에 관한 질문들입니다.', '#D1FAE5', '#10B981', '{
   "questions": [
     {
       "id": 1,

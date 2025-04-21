@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'YMRS', '조증 평가척도', '', '{
+'YMRS', '조증 평가척도', '', '#FDE68A', '#F59E0B', '{
   "questions": [
     {
       "id": 1,

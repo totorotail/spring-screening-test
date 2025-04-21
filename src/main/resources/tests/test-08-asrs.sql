@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'ASRS', '성인자기보고척도', '', '{
+'ASRS', '성인자기보고척도', '', '#E9D5FF', '#A855F7', '{
   "questions": [
     {
       "id": 1,

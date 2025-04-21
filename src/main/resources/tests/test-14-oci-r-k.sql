@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'OCI-R-K', '강박장애 척도', '이 질문지는 많은 사람들이 일상생활에서 경험할 수 있는 내용들로 구성되어 있습니다. 문항을 잘 읽고 각 문항에 대해서 자신을 가장 잘 나타내 주는 알맞은 숫자를 선택해 주세요.', '{
+'OCI-R-K', '강박장애 척도', '이 질문지는 많은 사람들이 일상생활에서 경험할 수 있는 내용들로 구성되어 있습니다. 문항을 잘 읽고 각 문항에 대해서 자신을 가장 잘 나타내 주는 알맞은 숫자를 선택해 주세요.', '#EDE9FE', '#8B5CF6', '{
   "questions": [
     {
       "id": 1,

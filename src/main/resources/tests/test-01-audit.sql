@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'AUDIT', '알코올 사용장애 선별검사', '', '{
+'AUDIT', '알코올 사용장애 선별검사', '', '#FEE2E2', '#EF4444', '{
   "questions": [
     {
       "id": 1,

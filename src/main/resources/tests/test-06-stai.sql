@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'STAI', '상태-특성 불안척도', '', '{
+'STAI', '상태-특성 불안척도', '', '#DBEAFE', '#3B82F6', '{
   "questions": [
     {
       "id": 1,
