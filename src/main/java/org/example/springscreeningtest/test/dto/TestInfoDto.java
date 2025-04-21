@@ -14,5 +14,7 @@ public class TestInfoDto {
   private String acronym;
   private String title;
   private String description;
+  private String badgeBgColor;
+  private String badgeTextColor;
   private String questionsConfig;
 }

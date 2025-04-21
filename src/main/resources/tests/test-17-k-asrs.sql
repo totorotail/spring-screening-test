@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'K-ASRS', '성인용 ADHD 자가보고 척도', '', '{
+'K-ASRS', '성인용 ADHD 자가보고 척도', '', '#CCFBF1', '#06B6D4', '{
   "questions": [
     {
       "id": 1,

@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'MMSEK', '간이 정신상태 검사', '각 질문별 채점 지침을 확인하고 환자의 답변을 기재하세요.', '{
+'MMSEK', '간이 정신상태 검사', '각 질문별 채점 지침을 확인하고 환자의 답변을 기재하세요.', '#FEF3C7', '#D97706', '{
   "questions": [
     {
       "id": 1,

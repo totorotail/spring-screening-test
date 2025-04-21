@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'HAM-D', '헤밀턴 우울 검사', '', '{
+'HAM-D', '헤밀턴 우울 검사', '', '#E0F2FE', '#0EA5E9', '{
   "questions": [
     {
       "id": 1,

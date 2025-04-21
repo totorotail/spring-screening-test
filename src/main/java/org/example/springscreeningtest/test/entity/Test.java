@@ -34,6 +34,12 @@ public class Test {
   @Column(columnDefinition = "TEXT")
   private String description;
 
+  @Column(name = "badge_bg_color")
+  private String badgeBgColor;
+
+  @Column(name = "badge_text_color")
+  private String badgeTextColor;
+
   @Column(name = "questions_config", columnDefinition = "TEXT")
   private String questionsConfig; // JSON 형식으로 질문과 옵션 저장
 }

@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'BPRS', '간편 정신상태 평정 척도', '', '{
+'BPRS', '간편 정신상태 평정 척도', '', '#ECFCCB', '#84CC16', '{
   "questions": [
     {
       "id": 1,

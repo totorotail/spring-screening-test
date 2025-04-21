@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'BDI', '벡 우울척도', '', '{
+'BDI', '벡 우울척도', '', '#FEF9C3', '#EAB308', '{
   "questions": [
     {
       "id": 1,

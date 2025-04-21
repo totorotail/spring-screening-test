@@ -58,6 +58,8 @@ public class TestService {
         .acronym(test.getAcronym())
         .title(test.getTitle())
         .description(test.getDescription())
+        .badgeBgColor(test.getBadgeBgColor())
+        .badgeTextColor(test.getBadgeTextColor())
         .questionsConfig(test.getQuestionsConfig())
         .build();
   }
@@ -72,6 +74,8 @@ public class TestService {
             .acronym(test.getAcronym())
             .title(test.getTitle())
             .description(test.getDescription())
+            .badgeBgColor(test.getBadgeBgColor())
+            .badgeTextColor(test.getBadgeTextColor())
             .questionsConfig(test.getQuestionsConfig())
             .build())
         .collect(Collectors.toList());

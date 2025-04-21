@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'GDS', '노인우울척도', '', '{
+'GDS', '노인우울척도', '', '#FEF3C7', '#F59E0B', '{
   "questions": [
     {
       "id": 1,

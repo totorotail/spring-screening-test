@@ -1,6 +1,6 @@
-INSERT INTO tests (acronym, title, description, questions_config)
+INSERT INTO tests (acronym, title, description, badge_bg_color, badge_text_color, questions_config)
 SELECT
-'ESS', '앱워스 주간졸림 설문', '', '{
+'ESS', '앱워스 주간졸림 설문', '', '#FCE7F3', '#DB2777', '{
   "questions": [
     {
       "id": 1,
