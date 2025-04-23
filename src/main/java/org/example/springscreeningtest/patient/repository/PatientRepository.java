@@ -1,5 +1,6 @@
 package org.example.springscreeningtest.patient.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.example.springscreeningtest.hospital.entity.Hospital;
 import org.example.springscreeningtest.patient.entity.Patient;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
+  List<Patient> findByHospital(Hospital hospital);
   Page<Patient> findByHospital(Hospital hospital, Pageable pageable);
   Page<Patient> findByHospitalAndNameContaining(Hospital hospital, String name, Pageable pageable);
   Optional<Patient> findByHospitalAndPatientNumber(Hospital hospital, String patientNumber);

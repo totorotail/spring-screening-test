@@ -1,11 +1,13 @@
 package org.example.springscreeningtest.patient.controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.patient.dto.PatientCreateDto;
 import org.example.springscreeningtest.patient.dto.PatientDuplicateCheckDto;
 import org.example.springscreeningtest.patient.dto.PatientResponseDto;
 import org.example.springscreeningtest.patient.dto.PatientUpdateDto;
+import org.example.springscreeningtest.patient.dto.PatientWithLastExamDto;
 import org.example.springscreeningtest.patient.service.PatientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,11 @@ public class PatientController {
   public ResponseEntity<Page<PatientResponseDto>> getAllPatients(
       @PageableDefault(size = 10) Pageable pageable) {
     return ResponseEntity.ok(patientService.getAllPatients(pageable));
+  }
+
+  @GetMapping("/with-last-exam")
+  public ResponseEntity<List<PatientWithLastExamDto>> getAllPatientsWithLastExam() {
+    return ResponseEntity.ok(patientService.getAllPatientsWithLastExam());
   }
 
   @GetMapping("/search")

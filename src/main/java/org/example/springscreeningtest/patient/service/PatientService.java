@@ -1,6 +1,9 @@
 package org.example.springscreeningtest.patient.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.example.springscreeningtest.common.exception.CustomAccessDeniedException;
 import org.example.springscreeningtest.common.exception.DuplicatePatientException;
@@ -12,8 +15,11 @@ import org.example.springscreeningtest.hospital.repository.HospitalRepository;
 import org.example.springscreeningtest.patient.dto.PatientCreateDto;
 import org.example.springscreeningtest.patient.dto.PatientResponseDto;
 import org.example.springscreeningtest.patient.dto.PatientUpdateDto;
+import org.example.springscreeningtest.patient.dto.PatientWithLastExamDto;
 import org.example.springscreeningtest.patient.entity.Patient;
 import org.example.springscreeningtest.patient.repository.PatientRepository;
+import org.example.springscreeningtest.test.entity.PatientTest;
+import org.example.springscreeningtest.test.repository.PatientTestRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -27,6 +33,7 @@ public class PatientService {
 
   private final PatientRepository patientRepository;
   private final HospitalRepository hospitalRepository;
+  private final PatientTestRepository patientTestRepository;
 
   @Transactional
   public PatientResponseDto registerPatient(PatientCreateDto dto) {
@@ -63,6 +70,28 @@ public class PatientService {
     Hospital hospital = getCurrentHospital();
     return patientRepository.findByHospital(hospital, pageable)
         .map(this::mapToResponseDto);
+  }
+
+  @Transactional(readOnly = true)
+  public List<PatientWithLastExamDto> getAllPatientsWithLastExam() {
+    Hospital hospital = getCurrentHospital();
+    List<Patient> patients = patientRepository.findByHospital(hospital);
+
+    return patients.stream().map(patient -> {
+      LocalDate lastExam = patientTestRepository
+          .findTopByPatientOrderByTestDateDesc(patient)
+          .map(PatientTest::getTestDate)
+          .orElse(null);
+
+      return PatientWithLastExamDto.builder()
+          .id(patient.getId())
+          .name(patient.getName())
+          .residentRegistrationNumber(patient.getResidentRegistrationNumber())
+          .phoneNumber(patient.getPhoneNumber())
+          .patientNumber(patient.getPatientNumber())
+          .lastExam(lastExam)
+          .build();
+    }).collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)
