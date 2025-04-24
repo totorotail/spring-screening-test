@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+  <!-- 공통 로그 패턴 정의 -->
+  <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+  <!-- 콘솔 로그 -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 파일 로그 (롤링 로그 설정 포함) -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/app.log</file>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory> <!-- 최근 30일 유지 -->
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 특정 로그 수준 설정 -->
+  <logger name="org.springframework" level="INFO" />
+  <logger name="org.hibernate.SQL" level="ERROR" />
+  <logger name="org.hibernate.type.descriptor.sql" level="ERROR" />
+
+  <!-- 루트 로거 (콘솔 + 파일 모두 기록) -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>
