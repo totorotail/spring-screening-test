@@ -55,18 +55,13 @@ public class TestService {
         .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + acronym));
 
     // questionsConfig가 null이 아니고 비어있지 않을 경우에만 검증 로직 수행
-    if (test.getQuestionsConfig() != null && !test.getQuestionsConfig().isEmpty()) {
-      try {
-        // JSON 파싱 검증
+    try {
+      if (test.getQuestionsConfig() != null) {
         objectMapper.readTree(test.getQuestionsConfig());
-      } catch (Exception e) {
-        // 로깅 추가
-        System.err.println("JSON 파싱 오류 발생: " + acronym + " - " + e.getMessage());
-
-        // JSON 정제 시도
-        String cleanedJson = cleanJsonString(test.getQuestionsConfig());
-        test.setQuestionsConfig(cleanedJson);
       }
+    } catch (Exception e) {
+      System.err.println("경고: JSON 파싱 경고 (영향 없음): " + acronym + " - " + e.getMessage());
+      // 에러는 무시하고 원본 데이터 반환
     }
 
     return TestInfoDto.builder()
