@@ -24,7 +24,11 @@ public class SecurityConfig {
     http
         .csrf().disable()
         .authorizeHttpRequests()
-        .requestMatchers("/api/v1/**", "/h2-console/**").permitAll()
+        .requestMatchers(
+            "/", "/index.html", "/favicon.ico",
+            "/css/**", "/js/**", "/assets/**",
+            "/api/v1/**", "/h2-console/**"
+        ).permitAll()
         .anyRequest().authenticated()
         .and()
         .sessionManagement()
