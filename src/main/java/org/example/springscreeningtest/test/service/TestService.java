@@ -54,6 +54,21 @@ public class TestService {
     Test test = testRepository.findByAcronym(acronym)
         .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + acronym));
 
+    // questionsConfig가 null이 아니고 비어있지 않을 경우에만 검증 로직 수행
+    if (test.getQuestionsConfig() != null && !test.getQuestionsConfig().isEmpty()) {
+      try {
+        // JSON 파싱 검증
+        objectMapper.readTree(test.getQuestionsConfig());
+      } catch (Exception e) {
+        // 로깅 추가
+        System.err.println("JSON 파싱 오류 발생: " + acronym + " - " + e.getMessage());
+
+        // JSON 정제 시도
+        String cleanedJson = cleanJsonString(test.getQuestionsConfig());
+        test.setQuestionsConfig(cleanedJson);
+      }
+    }
+
     return TestInfoDto.builder()
         .id(test.getId())
         .acronym(test.getAcronym())
@@ -63,6 +78,20 @@ public class TestService {
         .badgeTextColor(test.getBadgeTextColor())
         .questionsConfig(test.getQuestionsConfig())
         .build();
+  }
+
+  // JSON 문자열 정제를 위한 도우미 메서드 추가
+  private String cleanJsonString(String json) {
+    if (json == null) return null;
+
+    // 이스케이프 문자 처리
+    return json.replace("\\", "\\\\")
+        .replace("\t", "\\t")
+        .replace("\b", "\\b")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\f", "\\f")
+        .replace("\"\"", "\"");
   }
 
   @Transactional(readOnly = true)
@@ -138,11 +167,11 @@ public class TestService {
     }
   }
 
-
   private void calculateScores(TestResultDto testResultDto, Test test) {
     try {
       // 검사 유형 정보에서 질문과 옵션 정보 조회
-      JsonNode questionsConfig = objectMapper.readTree(test.getQuestionsConfig());
+      String cleanedJson = cleanJsonString(test.getQuestionsConfig());
+      JsonNode questionsConfig = objectMapper.readTree(cleanedJson);
       JsonNode questions = questionsConfig.get("questions");
 
       int totalScore = 0;
@@ -383,7 +412,8 @@ public class TestService {
       }
 
       // 검사 질문 구성 파싱
-      JsonNode questionsConfig = objectMapper.readTree(test.getQuestionsConfig());
+      String cleanedJson = cleanJsonString(test.getQuestionsConfig());
+      JsonNode questionsConfig = objectMapper.readTree(cleanedJson);
       JsonNode questions = questionsConfig.get("questions");
 
       // 질문과 응답 매핑
