@@ -20,11 +20,12 @@ public class WebConfig implements WebMvcConfigurer {
   // 프론트엔드 라우터 경로를 서버가 index.html로 포워딩하게 처리
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/{spring:\\w+}")
+    // ✅ 정적 자원은 제외하고, 프론트 라우터 경로만 index.html로 보내기
+    registry.addViewController("/{spring:[a-zA-Z0-9\\-]+}")
         .setViewName("forward:/index.html");
-    registry.addViewController("/**/{spring:\\w+}")
+    registry.addViewController("/**/{spring:[a-zA-Z0-9\\-]+}")
         .setViewName("forward:/index.html");
-    registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css|\\.png|\\.svg|\\.jpg|\\.jpeg|\\.webp|\\.woff2|\\.woff|\\.ttf)$}")
+    registry.addViewController("/{spring:[a-zA-Z0-9\\-]+}/**{spring:?!(\\.js|\\.css|\\.png|\\.svg|\\.ico|\\.json|\\.map)$}")
         .setViewName("forward:/index.html");
   }
 }
