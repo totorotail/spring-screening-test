@@ -54,16 +54,6 @@ public class TestService {
     Test test = testRepository.findByAcronym(acronym)
         .orElseThrow(() -> new TestNotFoundException("검사 유형을 찾을 수 없습니다: " + acronym));
 
-    // questionsConfig가 null이 아니고 비어있지 않을 경우에만 검증 로직 수행
-    try {
-      if (test.getQuestionsConfig() != null) {
-        objectMapper.readTree(test.getQuestionsConfig());
-      }
-    } catch (Exception e) {
-      System.err.println("경고: JSON 파싱 경고 (영향 없음): " + acronym + " - " + e.getMessage());
-      // 에러는 무시하고 원본 데이터 반환
-    }
-
     return TestInfoDto.builder()
         .id(test.getId())
         .acronym(test.getAcronym())
@@ -73,20 +63,6 @@ public class TestService {
         .badgeTextColor(test.getBadgeTextColor())
         .questionsConfig(test.getQuestionsConfig())
         .build();
-  }
-
-  // JSON 문자열 정제를 위한 도우미 메서드 추가
-  private String cleanJsonString(String json) {
-    if (json == null) return null;
-
-    // 이스케이프 문자 처리
-    return json.replace("\\", "\\\\")
-        .replace("\t", "\\t")
-        .replace("\b", "\\b")
-        .replace("\n", "\\n")
-        .replace("\r", "\\r")
-        .replace("\f", "\\f")
-        .replace("\"\"", "\"");
   }
 
   @Transactional(readOnly = true)
@@ -162,11 +138,11 @@ public class TestService {
     }
   }
 
+
   private void calculateScores(TestResultDto testResultDto, Test test) {
     try {
       // 검사 유형 정보에서 질문과 옵션 정보 조회
-      String cleanedJson = cleanJsonString(test.getQuestionsConfig());
-      JsonNode questionsConfig = objectMapper.readTree(cleanedJson);
+      JsonNode questionsConfig = objectMapper.readTree(test.getQuestionsConfig());
       JsonNode questions = questionsConfig.get("questions");
 
       int totalScore = 0;
@@ -407,8 +383,7 @@ public class TestService {
       }
 
       // 검사 질문 구성 파싱
-      String cleanedJson = cleanJsonString(test.getQuestionsConfig());
-      JsonNode questionsConfig = objectMapper.readTree(cleanedJson);
+      JsonNode questionsConfig = objectMapper.readTree(test.getQuestionsConfig());
       JsonNode questions = questionsConfig.get("questions");
 
       // 질문과 응답 매핑
