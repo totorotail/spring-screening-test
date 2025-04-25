@@ -31,7 +31,7 @@ public class Test {
   @Column(nullable = false)
   private String title;
 
-  @Column(columnDefinition = "TEXT")
+  @Column(columnDefinition = "LONGTEXT")
   private String description;
 
   @Column(name = "badge_bg_color")
@@ -40,6 +40,6 @@ public class Test {
   @Column(name = "badge_text_color")
   private String badgeTextColor;
 
-  @Column(name = "questions_config", columnDefinition = "TEXT")
+  @Column(name = "questions_config", columnDefinition = "LONGTEXT")
   private String questionsConfig; // JSON 형식으로 질문과 옵션 저장
 }

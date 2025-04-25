@@ -45,9 +45,9 @@ public class PatientTest extends BaseTimeEntity {
   @Column(name = "total_score")
   private Integer totalScore;
 
-  @Column(name = "test_results", columnDefinition = "TEXT")
+  @Column(name = "test_results", columnDefinition = "LONGTEXT")
   private String testResults; // JSON 형식으로 환자의 응답 결과 저장
 
-  @Column(name = "comment", columnDefinition = "TEXT")
+  @Column(name = "comment", columnDefinition = "LONGTEXT")
   private String comment; // 의사 또는 간호사가 남긴 코멘트
 }
